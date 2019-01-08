@@ -1,12 +1,24 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+const mysql = require('mysql');
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.json([
-    {id : 1, username: "halo"},
-    {id : 2, username: "somebody_else"}
-  ])
+
+router.get('/', (req, res, next)=> {
+  // 비밀번호는 별도의 파일로 분리해서 버전관리에 포함시키지 않아야 합니다.
+  var pass = null;
+  var connection = mysql.createConnection({
+    host     : 'localhost',
+    user     : 'root',
+    password : '1111',
+    database : 'studydb'
+  });
+  connection.connect();
+  connection.query('SELECT * FROM board', function (error, results, fields) {
+      if (error) {
+          console.log(error);
+      }
+      pass = JSON.stringify(results)
+  });
   res.send('respond with a resource');
 });
 
