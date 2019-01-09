@@ -7,17 +7,19 @@ class App extends Component {
   componentDidMount(){
     fetch("/users")
       .then(res=>res.json())
-      .then(users=>console.log(users))
-      .then(console.log("성공"))
-      .catch(error=>console.log("오류"))
+      .then(data =>this.setState({data}))
+  }
+
+  handleClick=()=>{
+    console.log(this.state.data[0].BNO)
   }
 
   render() {
     return (
       <div className="App">
         <h1>Users</h1>
-          <a href="/users">go user</a>
-          <li>{this.state.user}</li>
+          <div><a href="/users">go user</a></div>
+          <button onClick={this.handleClick}>Click me</button>
       </div>
     );
   }
